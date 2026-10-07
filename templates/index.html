@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expensive Tracker For Home</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h1>Expense Tracker for Home</h1>
+        <form method="get" class="month-form">
+            <input type="month" name="month" value="{{ month }}">
+            <button type="submit">Show</button>
+        </form>       
+        <a href="/?month=all">Show All Month</a>
+         <div class="total-box">
+            <h2>Total: ₹ {{ total}} </h2>
+        </div>
+        <div class="summary">
+              <h3>Category-wise Expense</h3>
+              {% for cat, amt in by_category.items() %}
+               <p>{{ cat }}: ₹ {{ amt }}</p>
+                    {% endfor %}
+        </div>    
+    <form method="post" action="/add" class="add-form">
+        <input type="data" name="date" placeholder="Date" required>
+        <input type="text" name="item" placeholder="Product/Name" required>
+        <select name="category">
+            {% for c in categories %}
+            <option value="{{c}}">{{ c }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="amount" step= "0.01" placeholder="Amount" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th></th>
+       
+        </tr>
+        {% for e in expenses %}
+        <tr>
+            <td>{{ e.date }}</td>
+            <td>{{ e.item }}</td>
+            <td>{{ e.category }}</td>
+            <td> ₹ {{ e.amount }}</td>
+            <td>
+                <form method="post" action="/delete/{{ e.id }}">
+                <button type="submit">Delete</button>
+            </form>
+            </td>
+            
+        </tr>
+     {% endfor %}
+     </table>
+    </div>
+    
+</body>
+</html>
