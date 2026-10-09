@@ -33,12 +33,12 @@ def home():
     total = 0
     by_category = {}
     for i, e in enumerate(all_expenses):
-            if month == "all" or e["date"].startswith(month):
+        if month == "all" or e["date"].startswith(month):
              e["id"] = i
-            expenses.append(e)
-            total = total + e["amount"]
-            cat = e["category"]
-            by_category[cat] = by_category.get(cat, 0) + e["amount"]
+             expenses.append(e)
+             total = total + e["amount"]
+             cat = e["category"]
+             by_category[cat] = by_category.get(cat, 0) + e["amount"]
 
     return render_template("index.html", expenses=expenses, total=total,
                            by_category=by_category, categories=categories,
@@ -61,10 +61,10 @@ def add():
 @app.route("/delete/<int:index>", methods=["POST"])
 def delete(index):
     expenses = load_expenses()
-    if 0<= index < len(expenses):
+    if 0 <= index < len(expenses):
         expenses.pop(index)
         save_expenses(expenses)
     return redirect(request.referrer or "/")
 
 
-app.run(host="0.0.0.0"  ,debug=True)
+app.run(host="0.0.0.0", debug=False)
